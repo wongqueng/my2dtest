@@ -54,7 +54,6 @@ using UnityEngine.Events;
 		//Animation event hooks
 		public void DealDamage()
         {
-	        Debug.Log("DealDamage");
 			//only melee units play audio when the attack deals damage
 			// if(attackType == AttackType.Melee)
 				//audioSource.PlayOneShot(attackAudioClip, 1f);
@@ -97,8 +96,7 @@ using UnityEngine.Events;
             hitPoints -= amount;
             //Debug.Log("Suffering damage, new health: " + hitPoints, gameObject);
             if(state != States.Dead
-				&& hitPoints <= 0f)
-            {
+				&& hitPoints <= 0f){
                 Die();
             }
 

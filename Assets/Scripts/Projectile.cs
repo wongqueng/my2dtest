@@ -10,8 +10,8 @@ namespace UnityRoyale
 		[HideInInspector] public ThinkingPlaceable target;
 		 public float damage;
 		private float speed = 3f;
-		public float direction = 1;
-		public long createtime;
+		[HideInInspector] public float direction = 1;
+		[HideInInspector] public long createtime;
 		private void Awake() {
 			 createtime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 		}

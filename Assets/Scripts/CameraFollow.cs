@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MyGame;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -17,6 +18,10 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (targetobject==null) {
+            return;
+        }
+
         float targetObjectX = targetobject.transform.position.x;//角色位置
         Vector3 newCameraPostion = transform.position;//相机位置
         if(targetObjectX>= (newCameraPostion.x+ screenWidth / 5))

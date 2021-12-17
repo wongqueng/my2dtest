@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MyGame;
 using UnityEngine;
 using UnityRoyale;
 
@@ -68,8 +69,11 @@ public class GameManager : MonoBehaviour {
     private void OnPlaceableDealtDamage(ThinkingPlaceable p) {
         for (int i = 0; i < ememys.Count; i++) {
             ThinkingPlaceable ememy = ememys[i];
-            if (Math.Abs(ememy.transform.position.x - player.transform.position.x) <= 2) {
+            int playerface = player.GetComponent<MyPlayer>().getFace();
+            float distance = ememy.transform.position.x - player.transform.position.x;
+            if (Math.Abs(ememy.transform.position.y-1 - player.transform.position.y) <= 1&&((playerface==1&&distance>=0&&distance <= 2)||(playerface==-1&&distance<=0&&distance >= -2))) {
                 // ememy.GetHit();
+
                 float newHealth = ememy.SufferDamage(p.damage);
                 if (ememy.state != ThinkingPlaceable.States.Dead) {
                     ememy.GetHit();

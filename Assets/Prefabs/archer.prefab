@@ -150,9 +150,9 @@ MonoBehaviour:
   attackType: 0
   hitPoints: 100
   attackRange: 2
-  attackRatio: 4
+  attackRatio: 2
   lastBlowTime: -1000
   damage: 20
   timeToActNext: 0
-  projectilePrefab: {fileID: 5081477146482419718, guid: 99aee726aeac5964884314b250107dea, type: 3}
+  projectilePrefab: {fileID: 5692558528341538789, guid: 3b7979eabb05e2c4b8819b0285264e28, type: 3}
   projectileSpawnPoint: {fileID: 0}

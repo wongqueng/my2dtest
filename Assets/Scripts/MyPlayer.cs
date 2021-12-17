@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -31,6 +32,14 @@ namespace MyGame {
         }
 
         private void Update() {
+            if (transform.position.y < -10) {
+                Die();
+                return;
+            }
+
+            if (state == States.Dead) {
+                return;
+            }
             float inputX = Input.GetAxis("Horizontal");
 
             // Swap direction of sprite depending on walk direction
@@ -56,6 +65,10 @@ namespace MyGame {
             } else if (Input.GetKeyUp(KeyCode.K) && !m_rolling) {
                 m_block = false;
                 m_animator.SetBool("IdleBlock", m_block);
+            } else if (Input.GetKeyUp(KeyCode.L) && !m_rolling) {
+                m_rolling = true;
+                m_animator.SetTrigger("Roll");
+                m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
             } else if (Input.GetKeyDown("space") && m_grounded && !m_rolling) {
                 m_animator.SetTrigger("Jump");
                 m_grounded = false;
@@ -69,7 +82,12 @@ namespace MyGame {
             }
         }
 
+        private void OnCollisionEnter(Collision other) {
+            Debug.Log("OnCollisionEnter");
+        }
+
         void OnCollisionEnter2D(Collision2D collision) {
+            Debug.Log("OnCollisionEnter2D");
             if (collision.collider.CompareTag("Ground")) {
                 // Debug.Log("ground");
                 m_grounded = true;
@@ -81,11 +99,10 @@ namespace MyGame {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            // m_animator.SetTrigger("Hurt");
-            if (state == States.Dead) {
+            Debug.Log("OnTriggerEnter2D");
+            if (state == States.Dead||m_rolling) {
                 return;
             }
-
             if (other.CompareTag("Enemy")) {
                 m_animator.SetTrigger("Hurt");
                 m_body2d.MovePosition(m_body2d.position
@@ -115,6 +132,12 @@ namespace MyGame {
         protected override void Die() {
             base.Die();
             m_animator.SetTrigger("Death");
+            StartCoroutine(OnDieEnd(2));
+        }
+
+        IEnumerator OnDieEnd(float fTime) {
+            yield return new WaitForSeconds(fTime);
+            Destroy(gameObject);
         }
 
         public override void GetHit() {
@@ -127,6 +150,10 @@ namespace MyGame {
             // Animator   tmpanimator=null;
             // tmpanimator.SetBool("Grounded", true);
             m_rolling = false;
+        }
+
+        public int getFace() {
+            return m_facingDirection;
         }
     }
 }
